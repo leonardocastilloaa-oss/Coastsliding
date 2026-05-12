@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 120" width="420" height="120">
+  <defs>
+    <linearGradient id="oceanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0A4F6E;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00B4D8;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00B4D8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#90E0EF;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#CAF0F8;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#90E0EF;stop-opacity:0.4" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0A4F6E" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Icon: Sliding door panel with wave -->
+  <!-- Door frame outer -->
+  <rect x="10" y="15" width="78" height="90" rx="4" ry="4" fill="none" stroke="url(#oceanGrad)" stroke-width="3.5"/>
+
+  <!-- Door panel 1 (back) -->
+  <rect x="14" y="19" width="35" height="82" rx="2" ry="2" fill="url(#glassGrad)" stroke="#00B4D8" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Door panel 2 (front, sliding) -->
+  <rect x="34" y="19" width="50" height="82" rx="2" ry="2" fill="url(#glassGrad)" stroke="url(#oceanGrad)" stroke-width="2"/>
+
+  <!-- Wave inside door panel -->
+  <clipPath id="doorClip">
+    <rect x="34" y="19" width="50" height="82" rx="2"/>
+  </clipPath>
+  <g clip-path="url(#doorClip)">
+    <path d="M30 75 Q45 62 60 72 Q75 82 90 68 L90 105 L30 105 Z" fill="#00B4D8" opacity="0.35"/>
+    <path d="M30 82 Q48 70 63 79 Q78 88 92 76 L92 105 L30 105 Z" fill="#0A4F6E" opacity="0.25"/>
+    <!-- Horizontal slide lines -->
+    <line x1="36" y1="35" x2="82" y2="35" stroke="#00B4D8" stroke-width="1" opacity="0.5"/>
+    <line x1="36" y1="45" x2="82" y2="45" stroke="#00B4D8" stroke-width="0.8" opacity="0.3"/>
+  </g>
+
+  <!-- Door handle -->
+  <rect x="62" y="54" width="4" height="14" rx="2" fill="url(#oceanGrad)"/>
+
+  <!-- Slide arrow hint -->
+  <path d="M76 58 L83 58 M80 54 L84 58 L80 62" fill="none" stroke="#00B4D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+
+  <!-- Track line at bottom -->
+  <rect x="10" y="103" width="78" height="3" rx="1.5" fill="url(#oceanGrad)" opacity="0.6"/>
+  <!-- Track wheels -->
+  <circle cx="28" cy="104.5" r="3" fill="none" stroke="url(#oceanGrad)" stroke-width="1.5"/>
+  <circle cx="70" cy="104.5" r="3" fill="none" stroke="url(#oceanGrad)" stroke-width="1.5"/>
+
+  <!-- Company Name: CoastSlide -->
+  <text x="108" y="58" font-family="Georgia, 'Times New Roman', serif" font-size="38" font-weight="700" letter-spacing="-1" fill="url(#oceanGrad)" filter="url(#shadow)">
+    <tspan fill="#0A4F6E">Coast</tspan><tspan fill="#00B4D8">Slide</tspan>
+  </text>
+
+  <!-- Wave underline -->
+  <path d="M108 66 Q145 59 182 66 Q219 73 256 66 Q293 59 330 66" fill="none" stroke="url(#waveGrad)" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Tagline -->
+  <text x="109" y="88" font-family="'Trebuchet MS', Gill Sans, sans-serif" font-size="11.5" letter-spacing="2.5" fill="#0A4F6E" opacity="0.75">WINDOWS · DOORS · SOUTH FLORIDA</text>
+
+  <!-- Small star/sun accent -->
+  <circle cx="394" cy="30" r="8" fill="none" stroke="#00B4D8" stroke-width="1.5" opacity="0.5"/>
+  <circle cx="394" cy="30" r="3" fill="#00B4D8" opacity="0.7"/>
+  <line x1="394" y1="18" x2="394" y2="14" stroke="#00B4D8" stroke-width="1.5" opacity="0.5"/>
+  <line x1="394" y1="42" x2="394" y2="46" stroke="#00B4D8" stroke-width="1.5" opacity="0.5"/>
+  <line x1="382" y1="30" x2="378" y2="30" stroke="#00B4D8" stroke-width="1.5" opacity="0.5"/>
+  <line x1="406" y1="30" x2="410" y2="30" stroke="#00B4D8" stroke-width="1.5" opacity="0.5"/>
+  <line x1="385.5" y1="21.5" x2="383" y2="19" stroke="#00B4D8" stroke-width="1.5" opacity="0.5"/>
+  <line x1="402.5" y1="38.5" x2="405" y2="41" stroke="#00B4D8" stroke-width="1.5" opacity="0.5"/>
+  <line x1="402.5" y1="21.5" x2="405" y2="19" stroke="#00B4D8" stroke-width="1.5" opacity="0.5"/>
+  <line x1="385.5" y1="38.5" x2="383" y2="41" stroke="#00B4D8" stroke-width="1.5" opacity="0.5"/>
+</svg>

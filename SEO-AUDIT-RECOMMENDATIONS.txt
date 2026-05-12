@@ -1,0 +1,33 @@
+CoastSlide technical SEO and performance audit
+
+Completed in this package:
+
+- Removed external Google Fonts request.
+- Standardized canonical domain to https://coastsliding.com.
+- Added Cloudflare Pages _headers.
+- Added Cloudflare Pages _redirects.
+- Expanded robots.txt for Google, Bing, OpenAI, Anthropic, Perplexity, Apple and common AI crawlers.
+- Rebuilt sitemap.xml with lastmod, changefreq and priority.
+- Removed 404.html from sitemap.
+- Kept images lightweight.
+- Validated local links.
+- Validated JSON-LD blocks.
+- Kept one phone number across all pages.
+
+Recommendations after launch:
+
+1. Verify the domain in Google Search Console.
+2. Submit https://coastsliding.com/sitemap.xml.
+3. Add a real Google Business Profile and match the NAP exactly:
+   CoastSlide, one phone number, service area, website.
+4. Replace placeholder phone number before production.
+5. Replace stock/lightweight placeholder images with real job photos, compressed WebP/AVIF if possible.
+6. Add real review snippets only if they are genuine and match Google review policy.
+7. Use Cloudflare Web Analytics or another privacy-safe analytics tool.
+8. Publish fewer but better blogs. Aim for useful local guides, photos, and specific examples.
+9. Add real licensing, insurance, warranty and contractor details if available.
+10. After launch, test with PageSpeed Insights and Search Console URL Inspection.
+
+Important note:
+
+No SEO change guarantees #1 rankings or a 100/100 PageSpeed score in every environment. Scores depend on hosting, network, device, browser, Cloudflare settings, images, third-party scripts and real field data. This package removes the obvious blockers for a static Cloudflare Pages deployment.

@@ -1,4 +1,5 @@
 # Valid robots.txt for Google and AI crawlers
+# Refreshed: 2026-05-11
 User-agent: *
 Allow: /
 

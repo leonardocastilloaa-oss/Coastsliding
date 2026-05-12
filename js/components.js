@@ -150,7 +150,7 @@
         ['pages/privacy.html', 'Privacy Policy']
       ]) +
       '</div><div class="footer-bottom">' +
-      '<div class="footer-copy">© 2026 CoastSlide LLC · Licensed Florida Contractor · Homestead to Jupiter</div>' +
+      '<div class="footer-copy">&copy; 2026 CoastSlide LLC &middot; Licensed Florida Contractor &middot; Homestead to Jupiter</div>' +
       '<div class="footer-legal">' + link('pages/privacy.html', 'Privacy') + link('pages/terms.html', 'Terms') + '<a href="' + ROOT + 'sitemap.xml">Sitemap</a></div>' +
       '</div></div>';
   }
@@ -166,7 +166,7 @@
     trust.outerHTML = '<div class="trust-bar"><div class="trust-inner">' +
       '<div class="trust-item"><span class="ti" aria-hidden="true">&#127942;</span> Licensed & Insured</div>' +
       '<div class="trust-item"><span class="ti" aria-hidden="true">&#9889;</span> Same-Day Service</div>' +
-      '<div class="trust-item"><span class="ti" aria-hidden="true">&#128172;</span> English & Español</div>' +
+      '<div class="trust-item"><span class="ti" aria-hidden="true">&#128172;</span> English &amp; Espa&ntilde;ol</div>' +
       '<div class="trust-item"><span class="ti" aria-hidden="true">&#10003;</span> Miami-Dade NOA</div>' +
       '<div class="trust-item"><span class="ti" aria-hidden="true">&#128274;</span> Lifetime Warranty</div>' +
       '<div class="trust-item"><span class="ti" aria-hidden="true">&#128656;</span> Parts on Every Truck</div>' +
@@ -181,7 +181,7 @@
       '<h2 class="title white center">Your Door Fixed.<br/><em>Today.</em></h2>' +
       '<p class="lead center" style="color:rgba(255,255,255,.92);margin:16px auto 0">Flat-rate pricing. Bilingual. Licensed & insured. No surprises.</p>' +
       '<div class="cta-phones"><a href="tel:+13055557543" class="cta-phone"><div class="cta-phone-area">One Number for South Florida</div><div class="cta-phone-num">(305) 555-7543</div></a></div>' +
-      '<p class="cta-note">Mon-Sat 7am-8pm · Emergency 24/7 · Text OK · Se Habla Español</p>' +
+      '<p class="cta-note">Mon-Sat 7am-8pm &middot; Emergency 24/7 &middot; Text OK &middot; Se Habla Espa&ntilde;ol</p>' +
       '</div></div></section>';
   }
 
@@ -191,13 +191,41 @@
   wa.target = '_blank';
   wa.rel = 'noopener';
   wa.setAttribute('aria-label', 'WhatsApp CoastSlide');
-  wa.innerHTML = '<span aria-hidden="true">☎</span><span class="wa-tooltip">Chat on WhatsApp</span>';
+  wa.innerHTML = '<span aria-hidden="true">&#9742;</span><span class="wa-tooltip">Chat on WhatsApp</span>';
   document.body.appendChild(wa);
 
   var style = document.createElement('style');
   style.textContent =
-    '.brand-word{font-family:Georgia,"Times New Roman",serif;font-size:30px;line-height:1;color:#0A4F6E;letter-spacing:-.5px}.brand-word em{font-style:normal;color:#00B4D8}.footer-heading{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.86);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.16)}.footer-desc{color:rgba(255,255,255,.78)!important}.footer-links a{color:rgba(255,255,255,.78)!important}.footer-copy{color:rgba(255,255,255,.7)!important}.footer-legal a{color:rgba(255,255,255,.74)!important}.cta-note,.bcard-print-note{color:rgba(255,255,255,.85)!important}.page-sub{color:rgba(255,255,255,.94)!important}:root{--soft:#557187}.nav-logo:focus,.footer a:focus,a:focus,button:focus,input:focus,select:focus,textarea:focus{outline:3px solid #0AADBB;outline-offset:3px}';
+    '.brand-word{font-family:Georgia,"Times New Roman",serif;font-size:30px;line-height:1;color:#0A4F6E;letter-spacing:-.5px}.brand-word em{font-style:normal;color:#00B4D8}.footer-heading{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#fff;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.24)}.footer-desc{color:#eef8fb!important}.footer-links a{color:#f2fbfd!important}.footer-copy{color:#dbeef4!important}.footer-legal a{color:#e9f7fb!important}.cta-note,.bcard-print-note,.breadcrumb,.breadcrumb a,.rp-tag,.rp-stat-l,.cta-phone-area,.bcard-role,.bcard-contact,.bcard-svc,.local-band p,.local-band .seo-list li{color:#fff!important}.page-sub,.lead.center,.pc-area,.hpc-tag{color:#f5fbfe!important}:root{--soft:#405f76}.fsoc{color:#fff!important}.chip[style*="rgba(255,255,255"]{color:#fff!important}.nav-logo:focus,.footer a:focus,a:focus,button:focus,input:focus,select:focus,textarea:focus{outline:3px solid #0AADBB;outline-offset:3px}';
   document.head.appendChild(style);
+
+  function ensureMainLandmark() {
+    if (document.querySelector('main, [role="main"]')) return;
+    var body = document.body;
+    var firstAnchor = document.getElementById('nav') || body.firstElementChild;
+    var footerNode = document.getElementById('footer');
+    var main = document.createElement('main');
+    main.id = 'main-content';
+    main.setAttribute('role', 'main');
+    if (firstAnchor && firstAnchor.nextSibling) {
+      body.insertBefore(main, firstAnchor.nextSibling);
+    } else {
+      body.insertBefore(main, body.firstChild);
+    }
+    var node = main.nextSibling;
+    while (node && node !== footerNode) {
+      var next = node.nextSibling;
+      if (node.nodeType !== 1 || (
+        node.id !== 'mob-nav' &&
+        !node.classList.contains('mobile-nav') &&
+        !node.classList.contains('wa-float')
+      )) {
+        main.appendChild(node);
+      }
+      node = next;
+    }
+  }
+  ensureMainLandmark();
 
   window.csToggleMobile = function () {
     var menu = document.getElementById('mob-nav');
@@ -205,7 +233,7 @@
     if (!menu) return;
     menu.classList.toggle('open');
     if (btn) {
-      btn.textContent = menu.classList.contains('open') ? 'X' : '☰';
+      btn.textContent = menu.classList.contains('open') ? 'X' : '\u2630';
       btn.setAttribute('aria-label', menu.classList.contains('open') ? 'Close menu' : 'Open menu');
     }
   };

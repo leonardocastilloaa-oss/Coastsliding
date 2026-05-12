@@ -6,9 +6,13 @@
     "enabled": true
   },
   "assets": {
-    "directory": "."
-  },
-  "compatibility_flags": [
-    "nodejs_compat"
-  ]
+    "directory": ".",
+    "exclude": [
+      "_worker.js",
+      "**/_worker.js",
+      ".git/**",
+      ".wrangler/**",
+      "node_modules/**"
+    ]
+  }
 }

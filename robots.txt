@@ -1,3 +1,4 @@
+# Valid robots.txt for Google and AI crawlers
 User-agent: *
 Allow: /
 

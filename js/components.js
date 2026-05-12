@@ -1,4 +1,7 @@
 (function () {
+  var PHONE_DISPLAY = '(786) 659-3290';
+  var PHONE_TEL = '+17866593290';
+  var PHONE_WA = '17866593290';
   var path = window.location.pathname;
   var ROOT = path.includes('/cities/') || (path.includes('/blog/') && path.replace(/.*\/blog\//, '') !== '')
     ? '../../'
@@ -12,6 +15,20 @@
 
   function link(href, text, cls) {
     return '<a href="' + ROOT + href + '"' + (cls ? ' class="' + cls + '"' : '') + '>' + text + '</a>';
+  }
+
+  function city(slug, name, county) {
+    return '<a href="' + ROOT + 'pages/cities/' + slug + '.html" class="mega-item"><span class="mi-icon" aria-hidden="true">&#9656;</span><div><div class="mi-name">' + name + '</div><div class="mi-desc">' + county + '</div></div></a>';
+  }
+
+  function mob(href, text) {
+    return '<a class="mob-link" href="' + ROOT + href + '">' + text + '</a>';
+  }
+
+  function footCol(title, items) {
+    return '<div><div class="footer-heading">' + title + '</div><ul class="footer-links">' +
+      items.map(function (item) { return '<li>' + link(item[0], item[1]) + '</li>'; }).join('') +
+      '</ul></div>';
   }
 
   var nav = document.getElementById('nav');
@@ -61,7 +78,7 @@
       '<li>' + link('pages/about.html', 'About') + '</li>' +
       '</ul>' +
       '<div class="nav-right">' +
-      '<a href="tel:+13055557543" class="nav-phone"><span aria-hidden="true">&#128222;</span> (305) 555-7543</a>' +
+      '<a href="tel:' + PHONE_TEL + '" class="nav-phone"><span aria-hidden="true">&#128222;</span> ' + PHONE_DISPLAY + '</a>' +
       link('pages/contact.html', 'Free Estimate', 'nav-cta') +
       '<button class="nav-burger" id="burger" type="button" aria-label="Open menu" onclick="csToggleMobile()">&#9776;</button>' +
       '</div>';
@@ -83,14 +100,6 @@
       mob('pages/broward.html', 'Broward County') +
       mob('pages/palm-beach.html', 'Palm Beach County') +
       mob('pages/florida-keys.html', 'Florida Keys') +
-      '<div class="mob-section">Cities</div>' +
-      mob('pages/cities/homestead.html', 'Homestead') +
-      mob('pages/cities/miami.html', 'Miami') +
-      mob('pages/cities/miami-beach.html', 'Miami Beach') +
-      mob('pages/cities/fort-lauderdale.html', 'Fort Lauderdale') +
-      mob('pages/cities/boca-raton.html', 'Boca Raton') +
-      mob('pages/cities/west-palm-beach.html', 'West Palm Beach') +
-      mob('pages/cities/jupiter.html', 'Jupiter') +
       '<div class="mob-section">Company</div>' +
       mob('pages/blog.html', 'Blog') +
       mob('pages/reviews.html', 'Reviews') +
@@ -98,18 +107,10 @@
       mob('pages/faq.html', 'FAQ') +
       mob('pages/contact.html', 'Contact & Free Estimate') +
       '<div style="margin-top:20px;padding-bottom:30px">' +
-      '<a href="tel:+13055557543" class="btn btn-blue" style="display:block;text-align:center;margin-bottom:12px">Call (305) 555-7543</a>' +
-      '<a href="https://wa.me/13055557543" class="btn btn-wa" style="display:block;text-align:center" target="_blank" rel="noopener">WhatsApp Us</a>' +
+      '<a href="tel:' + PHONE_TEL + '" class="btn btn-blue" style="display:block;text-align:center;margin-bottom:12px">Call ' + PHONE_DISPLAY + '</a>' +
+      '<a href="https://wa.me/' + PHONE_WA + '" class="btn btn-wa" style="display:block;text-align:center" target="_blank" rel="noopener">WhatsApp Us</a>' +
       '</div>';
     document.body.appendChild(mobile);
-  }
-
-  function city(slug, name, county) {
-    return '<a href="' + ROOT + 'pages/cities/' + slug + '.html" class="mega-item"><span class="mi-icon" aria-hidden="true">&#9656;</span><div><div class="mi-name">' + name + '</div><div class="mi-desc">' + county + '</div></div></a>';
-  }
-
-  function mob(href, text) {
-    return '<a class="mob-link" href="' + ROOT + href + '">' + text + '</a>';
   }
 
   var footer = document.getElementById('footer');
@@ -118,12 +119,7 @@
       '<div class="container"><div class="footer-grid">' +
       '<div><a href="' + ROOT + 'index.html" aria-label="CoastSlide home">' + brand() + '</a>' +
       '<p class="footer-desc">South Florida bilingual sliding door and window repair. Miami-Dade NOA certified. Licensed FL contractor. Homestead to Jupiter.</p>' +
-      '<div class="footer-socials">' +
-      '<a href="#" class="fsoc" aria-label="CoastSlide on Facebook">f</a>' +
-      '<a href="#" class="fsoc" aria-label="CoastSlide on Instagram">in</a>' +
-      '<a href="#" class="fsoc" aria-label="CoastSlide on YouTube">yt</a>' +
-      '<a href="#" class="fsoc" aria-label="CoastSlide Google reviews">g</a>' +
-      '</div></div>' +
+      '<div class="footer-socials"><a href="#" class="fsoc" aria-label="CoastSlide on Facebook">f</a><a href="#" class="fsoc" aria-label="CoastSlide on Instagram">in</a><a href="#" class="fsoc" aria-label="CoastSlide on YouTube">yt</a><a href="#" class="fsoc" aria-label="CoastSlide Google reviews">g</a></div></div>' +
       footCol('Services', [
         ['pages/roller-replacement.html', 'Roller Replacement'],
         ['pages/track-repair.html', 'Track Repair'],
@@ -155,12 +151,6 @@
       '</div></div>';
   }
 
-  function footCol(title, items) {
-    return '<div><div class="footer-heading">' + title + '</div><ul class="footer-links">' +
-      items.map(function (item) { return '<li>' + link(item[0], item[1]) + '</li>'; }).join('') +
-      '</ul></div>';
-  }
-
   var trust = document.getElementById('trust-bar');
   if (trust) {
     trust.outerHTML = '<div class="trust-bar"><div class="trust-inner">' +
@@ -180,19 +170,59 @@
       '<div class="chip" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.25);color:#fff;margin:0 auto 20px"><span class="dot"></span> Free Estimate - Same Day Available</div>' +
       '<h2 class="title white center">Your Door Fixed.<br/><em>Today.</em></h2>' +
       '<p class="lead center" style="color:rgba(255,255,255,.92);margin:16px auto 0">Flat-rate pricing. Bilingual. Licensed & insured. No surprises.</p>' +
-      '<div class="cta-phones"><a href="tel:+13055557543" class="cta-phone"><div class="cta-phone-area">One Number for South Florida</div><div class="cta-phone-num">(305) 555-7543</div></a></div>' +
+      '<div class="cta-phones"><a href="tel:' + PHONE_TEL + '" class="cta-phone"><div class="cta-phone-area">One Number for South Florida</div><div class="cta-phone-num">' + PHONE_DISPLAY + '</div></a></div>' +
       '<p class="cta-note">Mon-Sat 7am-8pm &middot; Emergency 24/7 &middot; Text OK &middot; Se Habla Espa&ntilde;ol</p>' +
       '</div></div></section>';
   }
 
   var wa = document.createElement('a');
-  wa.href = 'https://wa.me/13055557543?text=Hello%20CoastSlide!%20I%20need%20a%20free%20estimate%20for%20my%20sliding%20door.';
+  wa.href = 'https://wa.me/' + PHONE_WA + '?text=Hello%20CoastSlide!%20I%20need%20a%20free%20estimate%20for%20my%20sliding%20door.';
   wa.className = 'wa-float';
   wa.target = '_blank';
   wa.rel = 'noopener';
   wa.setAttribute('aria-label', 'WhatsApp CoastSlide');
   wa.innerHTML = '<span aria-hidden="true">&#9742;</span><span class="wa-tooltip">Chat on WhatsApp</span>';
   document.body.appendChild(wa);
+
+  function replacePhoneText(text) {
+    return text
+      .replace(/\+1-305-555-7543/g, PHONE_TEL)
+      .replace(/\+13055557543/g, PHONE_TEL)
+      .replace(/13055557543/g, PHONE_WA)
+      .replace(/3055557543/g, PHONE_WA)
+      .replace(/\(305\) 555-7543/g, PHONE_DISPLAY)
+      .replace(/\(954\) 555-7543/g, PHONE_DISPLAY)
+      .replace(/\(561\) 555-7543/g, PHONE_DISPLAY)
+      .replace(/305-555-7543/g, '786-659-3290')
+      .replace(/954-555-7543/g, '786-659-3290')
+      .replace(/561-555-7543/g, '786-659-3290')
+      .replace(/305\.555\.7543/g, '786.659.3290');
+  }
+
+  function normalizePhones() {
+    document.querySelectorAll('[href]').forEach(function (node) {
+      var href = node.getAttribute('href') || '';
+      var next = replacePhoneText(href).replace(/wa\.me\/13055557543/g, 'wa.me/' + PHONE_WA);
+      if (next !== href) node.setAttribute('href', next);
+    });
+
+    document.querySelectorAll('script[type="application/ld+json"]').forEach(function (node) {
+      node.textContent = replacePhoneText(node.textContent);
+    });
+
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (node) {
+        var parent = node.parentElement;
+        if (!parent || /^(SCRIPT|STYLE|NOSCRIPT)$/i.test(parent.tagName)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var current;
+    while ((current = walker.nextNode())) {
+      var nextText = replacePhoneText(current.nodeValue);
+      if (nextText !== current.nodeValue) current.nodeValue = nextText;
+    }
+  }
 
   var style = document.createElement('style');
   style.textContent =
@@ -207,11 +237,8 @@
     var main = document.createElement('main');
     main.id = 'main-content';
     main.setAttribute('role', 'main');
-    if (firstAnchor && firstAnchor.nextSibling) {
-      body.insertBefore(main, firstAnchor.nextSibling);
-    } else {
-      body.insertBefore(main, body.firstChild);
-    }
+    if (firstAnchor && firstAnchor.nextSibling) body.insertBefore(main, firstAnchor.nextSibling);
+    else body.insertBefore(main, body.firstChild);
     var node = main.nextSibling;
     while (node && node !== footerNode) {
       var next = node.nextSibling;
@@ -225,7 +252,9 @@
       node = next;
     }
   }
+
   ensureMainLandmark();
+  normalizePhones();
 
   window.csToggleMobile = function () {
     var menu = document.getElementById('mob-nav');
@@ -296,5 +325,7 @@
     } else {
       document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('visible'); });
     }
+
+    normalizePhones();
   });
 })();

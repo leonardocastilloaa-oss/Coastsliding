@@ -1,7 +1,7 @@
-# CoastSlide / Coastsliding valid robots.txt
-# Updated: 2026-05-11
+# CoastSlide valid robots.txt
+# Primary domain: coastslide.com
 
 User-agent: *
 Allow: /
 
-Sitemap: https://coastsliding.com/sitemap.xml
+Sitemap: https://coastslide.com/sitemap.xml

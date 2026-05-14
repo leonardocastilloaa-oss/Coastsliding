@@ -31,13 +31,10 @@ function patchComponentsJs(text) {
     "'<li>' + link('pages/about.html', 'About') + '</li>' +\n      '</ul>' +",
     "'<li>' + link('pages/about.html', 'About') + '</li>' +\n      '<li>' + link('pages/contact.html', 'Contact Us') + '</li>' +\n      '</ul>' +"
   );
-  next = next.replace(
-    "mob('pages/contact.html', 'Contact & Free Estimate') +",
-    "mob('pages/contact.html', 'Contact Us') +"
-  );
+  next = next.replace("mob('pages/contact.html', 'Contact & Free Estimate') +", "mob('pages/contact.html', 'Contact Us') +");
   next = next.replace(
     /form\.addEventListener\('submit', function \(event\) \{[\s\S]*?if \(ok\) ok\.style\.display = 'block';\n      \}\);/,
-    "form.addEventListener('submit', async function (event) {\n        event.preventDefault();\n        var btn = form.querySelector('button[type=submit]');\n        var status = document.getElementById('form-success');\n        var original = btn ? btn.textContent : '';\n        if (status) {\n          status.style.display = 'none';\n          status.classList.remove('form-error');\n        }\n        if (btn) {\n          btn.textContent = 'Sending request...';\n          btn.disabled = true;\n        }\n        try {\n          var response = await fetch('/api/contact', {\n            method: 'POST',\n            headers: { 'Accept': 'application/json' },\n            body: new FormData(form)\n          });\n          if (!response.ok) throw new Error('Contact request failed');\n          if (btn) {\n            btn.textContent = 'Sent. We will contact you shortly.';\n            btn.style.background = '#27AE60';\n          }\n          if (status) {\n            status.textContent = 'Thank you. Your request was sent and CoastSlide will contact you shortly.';\n            status.style.display = 'block';\n          }\n          form.reset();\n        } catch (error) {\n          if (btn) {\n            btn.textContent = original || 'Send Request';\n            btn.disabled = false;\n          }\n          if (status) {\n            status.textContent = 'The form could not be sent right now. Please call or text (786) 659-3290.';\n            status.classList.add('form-error');\n            status.style.display = 'block';\n          }\n        }\n      });"
+    "form.addEventListener('submit', async function (event) {\n        event.preventDefault();\n        var btn = form.querySelector('button[type=submit]');\n        var status = document.getElementById('form-success');\n        var original = btn ? btn.textContent : '';\n        if (status) { status.style.display = 'none'; status.classList.remove('form-error'); }\n        if (btn) { btn.textContent = 'Sending request...'; btn.disabled = true; }\n        try {\n          var response = await fetch('/api/contact', { method: 'POST', headers: { 'Accept': 'application/json' }, body: new FormData(form) });\n          if (!response.ok) throw new Error('Contact request failed');\n          if (btn) { btn.textContent = 'Sent. We will contact you shortly.'; btn.style.background = '#27AE60'; }\n          if (status) { status.textContent = 'Thank you. Your request was sent and CoastSlide will contact you shortly.'; status.style.display = 'block'; }\n          form.reset();\n        } catch (error) {\n          if (btn) { btn.textContent = original || 'Send Request'; btn.disabled = false; }\n          if (status) { status.textContent = 'The form could not be sent right now. Please call or text (786) 659-3290.'; status.classList.add('form-error'); status.style.display = 'block'; }\n        }\n      });"
   );
   return next;
 }
@@ -75,6 +72,14 @@ function clean(value) {
   return String(value || '').replace(/[\r\n]+/g, ' ').trim().slice(0, 1200);
 }
 
+function firstFormValue(form, names) {
+  for (const name of names) {
+    const value = clean(form.get(name));
+    if (value) return value;
+  }
+  return '';
+}
+
 function json(body, status = 200) {
   return new Response(JSON.stringify(body), {
     status,
@@ -92,12 +97,12 @@ async function handleContact(request) {
   if (clean(form.get('company'))) return json({ ok: true });
 
   const lead = {
-    name: clean(form.get('name')),
-    phone: clean(form.get('phone')),
-    email: clean(form.get('email')),
-    area: clean(form.get('area')),
-    problem: clean(form.get('problem')),
-    details: clean(form.get('details'))
+    name: firstFormValue(form, ['name', 'home-name', 'contact-name', 'cs-field-0-0', 'cs-field-1-0']),
+    phone: firstFormValue(form, ['phone', 'home-phone', 'contact-phone', 'cs-field-0-1', 'cs-field-1-1']),
+    email: firstFormValue(form, ['email', 'home-email', 'contact-email', 'cs-field-0-2', 'cs-field-1-2']),
+    area: firstFormValue(form, ['area', 'county', 'city', 'home-county', 'contact-area', 'cs-field-0-3', 'cs-field-1-3']),
+    problem: firstFormValue(form, ['problem', 'repair', 'issue', 'home-repair', 'contact-problem', 'cs-field-0-4', 'cs-field-1-4']),
+    details: firstFormValue(form, ['details', 'message', 'notes', 'home-details', 'contact-details', 'cs-field-0-5', 'cs-field-1-5'])
   };
 
   if (!lead.name || !lead.phone || !lead.email || !lead.problem) {

@@ -1,4 +1,11 @@
-const PHONE_REPLACEMENTS = [
+const PRIMARY_HOST = 'coastslide.com';
+const OLD_HOSTS = new Set(['coastsliding.com', 'www.coastsliding.com', 'www.coastslide.com']);
+
+const REPLACEMENTS = [
+  [/https:\/\/coastsliding\.com/g, 'https://coastslide.com'],
+  [/http:\/\/coastsliding\.com/g, 'https://coastslide.com'],
+  [/www\.coastsliding\.com/g, 'coastslide.com'],
+  [/coastsliding\.com/g, 'coastslide.com'],
   [/\+1-305-555-7543/g, '+17866593290'],
   [/\+13055557543/g, '+17866593290'],
   [/13055557543/g, '17866593290'],
@@ -12,8 +19,8 @@ const PHONE_REPLACEMENTS = [
   [/305\.555\.7543/g, '786.659.3290']
 ];
 
-function normalizePhones(text) {
-  return PHONE_REPLACEMENTS.reduce((value, pair) => value.replace(pair[0], pair[1]), text);
+function normalizeText(text) {
+  return REPLACEMENTS.reduce((value, pair) => value.replace(pair[0], pair[1]), text);
 }
 
 function shouldRewrite(contentType) {
@@ -22,6 +29,13 @@ function shouldRewrite(contentType) {
 
 export default {
   async fetch(request, env) {
+    const url = new URL(request.url);
+    if (OLD_HOSTS.has(url.hostname)) {
+      url.hostname = PRIMARY_HOST;
+      url.protocol = 'https:';
+      return Response.redirect(url.toString(), 301);
+    }
+
     const response = await env.ASSETS.fetch(request);
     const contentType = response.headers.get('content-type') || '';
 
@@ -33,7 +47,7 @@ export default {
     headers.delete('content-length');
     headers.set('cache-control', 'no-store, no-cache, must-revalidate, max-age=0');
 
-    return new Response(normalizePhones(await response.text()), {
+    return new Response(normalizeText(await response.text()), {
       status: response.status,
       statusText: response.statusText,
       headers

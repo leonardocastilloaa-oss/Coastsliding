@@ -23,8 +23,8 @@ h2.title.white em{color:#C9F2FF}
 .rtab{color:var(--mid)!important}
 .rtab.active{background:var(--blue-mid)!important;border-color:var(--blue-mid)!important;color:#fff!important}
 .pc-area{color:var(--blue-mid)!important;font-weight:800}
-.phone-card.btn-wa .pc-area{color:#fff!important}
 .phone-card.btn-wa,.phone-card.btn-wa *{color:#fff!important}
+.phone-card.btn-wa{background:var(--wa)!important;border-color:var(--wa)!important}
 footer .brand-word strong{color:#fff!important}
 footer .brand-word em{color:#C9F2FF!important}
 .footer-desc{color:#eef8fb!important}
@@ -33,3 +33,13 @@ footer .brand-word em{color:#C9F2FF!important}
 .footer-copy{color:#dbeef4!important}
 .footer-legal a{color:#e9f7fb!important}
 .fsoc{color:#fff!important}
+
+/* Production fixes requested May 2026 */
+.nav-links>li>a{padding:8px 12px;font-size:13.5px}
+.rpanel.active{grid-template-columns:.95fr 1.05fr}
+.rp-photo{background:linear-gradient(145deg,var(--blue-deep),var(--blue) 58%,var(--teal))!important}
+.rp-photo img{display:none!important}
+.rp-photo-overlay{background:linear-gradient(160deg,rgba(7,63,95,.96) 0%,rgba(8,125,135,.76) 100%)!important}
+.rp-photo-content{justify-content:center!important}
+.form-success.form-error{background:#FFF4F2!important;border-color:#F0B8AC!important;color:#8A2418!important}
+@media(max-width:1024px){.rpanel.active{grid-template-columns:1fr}.rp-photo{min-height:280px}}

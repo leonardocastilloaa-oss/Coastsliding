@@ -90,6 +90,58 @@ function json(body, status = 200) {
   });
 }
 
+function buildLeadMessage(lead, request) {
+  return [
+    'New CoastSlide contact request',
+    '',
+    'Name: ' + lead.name,
+    'Phone: ' + lead.phone,
+    'Email: ' + lead.email,
+    'City or Area: ' + (lead.area || 'Not provided'),
+    'Type of Problem: ' + lead.problem,
+    'Details: ' + (lead.details || 'Not provided'),
+    'Source Page: ' + (request.headers.get('referer') || 'Direct website form')
+  ].join('\n');
+}
+
+async function sendLeadWithFormSubmit(lead, request) {
+  const payload = {
+    _subject: 'New CoastSlide Contact Request',
+    _template: 'table',
+    _captcha: 'false',
+    _replyto: lead.email,
+    name: lead.name,
+    phone: lead.phone,
+    email: lead.email,
+    area: lead.area || 'Not provided',
+    problem: lead.problem,
+    details: lead.details || 'Not provided',
+    message: buildLeadMessage(lead, request),
+    source_page: request.headers.get('referer') || 'Direct website form'
+  };
+
+  const response = await fetch('https://formsubmit.co/ajax/' + CONTACT_EMAIL, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Origin': 'https://coastslide.com',
+      'Referer': 'https://coastslide.com/pages/contact.html'
+    },
+    body: JSON.stringify(payload)
+  });
+
+  let result = null;
+  try {
+    result = await response.json();
+  } catch (error) {
+    result = { success: String(response.ok), message: 'No JSON response from email service' };
+  }
+
+  const ok = response.ok && String(result.success).toLowerCase() === 'true';
+  return { ok, status: response.status, result };
+}
+
 async function handleContact(request) {
   if (request.method !== 'POST') return json({ ok: false, error: 'Method not allowed' }, 405);
 
@@ -109,25 +161,17 @@ async function handleContact(request) {
     return json({ ok: false, error: 'Missing required fields' }, 400);
   }
 
-  const payload = new FormData();
-  payload.set('_subject', 'New CoastSlide Contact Request');
-  payload.set('_template', 'table');
-  payload.set('_captcha', 'false');
-  payload.set('Name', lead.name);
-  payload.set('Phone', lead.phone);
-  payload.set('Email', lead.email);
-  payload.set('City or Area', lead.area || 'Not provided');
-  payload.set('Type of Problem', lead.problem);
-  payload.set('Details', lead.details || 'Not provided');
-  payload.set('Source Page', request.headers.get('referer') || 'Direct website form');
+  const delivery = await sendLeadWithFormSubmit(lead, request);
+  if (!delivery.ok) {
+    const message = clean(delivery.result && delivery.result.message);
+    const activationRequired = /activation/i.test(message);
+    return json({
+      ok: false,
+      error: activationRequired ? 'activation_required' : 'email_service_failed',
+      message: activationRequired ? 'The email form needs one-time activation.' : 'Email service failed.'
+    }, activationRequired ? 503 : 502);
+  }
 
-  const response = await fetch('https://formsubmit.co/ajax/' + CONTACT_EMAIL, {
-    method: 'POST',
-    headers: { 'Accept': 'application/json' },
-    body: payload
-  });
-
-  if (!response.ok) return json({ ok: false, error: 'Email service failed' }, 502);
   return json({ ok: true });
 }
 
